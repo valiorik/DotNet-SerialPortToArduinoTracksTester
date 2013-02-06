@@ -5,7 +5,7 @@ using System;
 
 namespace SerialPortToArduinoTracksTester.BL
 {
-    class SerialPortMonitor
+    public class SerialPortMonitor
     {
         private SerialPort serial;
         private string comPortName;
@@ -14,6 +14,8 @@ namespace SerialPortToArduinoTracksTester.BL
         private StopBits stopBits;
         private Parity parityControl;
         private ASCIIEncoding encoding;
+
+        // Singleton constructor
 
         public static SerialPortMonitor Instance()
         {
@@ -31,6 +33,52 @@ namespace SerialPortToArduinoTracksTester.BL
             serial = new SerialPort();
             encoding = new ASCIIEncoding();
         }
+
+        // Events declaration
+
+        public delegate void StatusUpdateHandler(object sender, StatusEventArgs e);
+        public event StatusUpdateHandler OnUpdateStatus;
+
+        public delegate void NewDataHandler(object sender, NewDataEventArgs e);
+        public event NewDataHandler OnNewData;
+
+        // Events
+
+        private void UpdateStatusEvent(string status)
+        {
+            if (OnUpdateStatus == null) return;
+
+            StatusEventArgs args = new StatusEventArgs(status);
+            OnUpdateStatus(this, args);
+        }
+
+        // Events handlers
+
+        void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+         /*   int dataLength = serial.BytesToRead;
+            byte[] data = new byte[dataLength];
+            int nbrDataRead = serial.Read(data, 0, dataLength);
+            if (nbrDataRead == 0)
+            {
+                return;
+            }
+            */
+
+            var data = serial.ReadLine();
+
+            UpdateStatusEvent(data);
+
+         //   if (OnNewData != null)
+          //      OnNewData(this, new NewDataEventArgs(data));
+        }
+
+        void SerialPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        {
+            UpdateStatusEvent(e.EventType.ToString());
+        }
+
+        // Public methods
 
         public void Configure(int baudRate, int dataBits, StopBits stopBits, Parity parityControl)
         {
@@ -68,6 +116,9 @@ namespace SerialPortToArduinoTracksTester.BL
                     serial.StopBits = stopBits;
 
                     serial.Open();
+
+                    serial.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
+                    serial.ErrorReceived += new SerialErrorReceivedEventHandler(SerialPort_ErrorReceived);
                 }
                 catch (UnauthorizedAccessException uaex)
                 {
@@ -75,14 +126,21 @@ namespace SerialPortToArduinoTracksTester.BL
                 }
 
                 comPortName = port;
+                UpdateStatusEvent(string.Format("Connected to port {0}", comPortName));
             }
         }
 
-        public void close()
+        public void Close()
         {
             if (serial.IsOpen)
             {
                 serial.Close();
+                UpdateStatusEvent(string.Format("Disconnected from port {0}", comPortName));
+                comPortName = string.Empty;
+            }
+            else
+            {
+                UpdateStatusEvent("Unable to disconnect. Connection is closed already.");
             }
         }
 

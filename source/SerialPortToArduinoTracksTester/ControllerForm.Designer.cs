@@ -34,6 +34,7 @@
             this.ComPortListComboBox = new System.Windows.Forms.ComboBox();
             this.ComPortListRefreshButton = new System.Windows.Forms.Button();
             this.TracksStopButton = new System.Windows.Forms.Button();
+            this.LogListBox = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.RightTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LeftTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -50,7 +51,7 @@
             // 
             // RightTrackBar
             // 
-            this.RightTrackBar.Location = new System.Drawing.Point(250, 58);
+            this.RightTrackBar.Location = new System.Drawing.Point(138, 58);
             this.RightTrackBar.Maximum = 255;
             this.RightTrackBar.Minimum = -255;
             this.RightTrackBar.Name = "RightTrackBar";
@@ -91,18 +92,29 @@
             // 
             // TracksStopButton
             // 
-            this.TracksStopButton.Location = new System.Drawing.Point(111, 200);
+            this.TracksStopButton.Location = new System.Drawing.Point(58, 198);
             this.TracksStopButton.Name = "TracksStopButton";
             this.TracksStopButton.Size = new System.Drawing.Size(75, 23);
             this.TracksStopButton.TabIndex = 5;
             this.TracksStopButton.Text = "Stop";
             this.TracksStopButton.UseVisualStyleBackColor = true;
             // 
+            // LogListBox
+            // 
+            this.LogListBox.FormattingEnabled = true;
+            this.LogListBox.Items.AddRange(new object[] {
+            "Log:"});
+            this.LogListBox.Location = new System.Drawing.Point(189, 46);
+            this.LogListBox.Name = "LogListBox";
+            this.LogListBox.Size = new System.Drawing.Size(654, 498);
+            this.LogListBox.TabIndex = 6;
+            // 
             // ControllerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(311, 380);
+            this.ClientSize = new System.Drawing.Size(855, 552);
+            this.Controls.Add(this.LogListBox);
             this.Controls.Add(this.TracksStopButton);
             this.Controls.Add(this.ComPortListRefreshButton);
             this.Controls.Add(this.ComPortListComboBox);
@@ -127,6 +139,7 @@
         private System.Windows.Forms.ComboBox ComPortListComboBox;
         private System.Windows.Forms.Button ComPortListRefreshButton;
         private System.Windows.Forms.Button TracksStopButton;
+        private System.Windows.Forms.ListBox LogListBox;
     }
 }
 
