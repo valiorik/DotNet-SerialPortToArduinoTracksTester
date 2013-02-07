@@ -56,21 +56,33 @@ namespace SerialPortToArduinoTracksTester.BL
 
         void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-         /*   int dataLength = serial.BytesToRead;
-            byte[] data = new byte[dataLength];
-            int nbrDataRead = serial.Read(data, 0, dataLength);
-            if (nbrDataRead == 0)
+            // Booletproof protection.
+            // In some cases a lot of data may be sent from device and events are risen before port is closed.
+            if (serial.IsOpen)
             {
-                return;
+                /*   int dataLength = serial.BytesToRead;
+                   byte[] data = new byte[dataLength];
+                   int nbrDataRead = serial.Read(data, 0, dataLength);
+                   if (nbrDataRead == 0)
+                   {
+                       return;
+                   }
+                   */
+                try
+                {
+                    var data = serial.ReadLine();
+
+
+
+                    UpdateStatusEvent(data);
+                }
+                catch (Exception ex)
+                {
+                    
+                }
+                //   if (OnNewData != null)
+                //      OnNewData(this, new NewDataEventArgs(data));
             }
-            */
-
-            var data = serial.ReadLine();
-
-            UpdateStatusEvent(data);
-
-         //   if (OnNewData != null)
-          //      OnNewData(this, new NewDataEventArgs(data));
         }
 
         void SerialPort_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
@@ -238,6 +250,14 @@ namespace SerialPortToArduinoTracksTester.BL
             {
                 serial.DiscardInBuffer();
                 serial.DiscardOutBuffer();
+            }
+        }
+
+        public void SendCommand(string command)
+        {
+            if (serial.IsOpen)
+            {
+                serial.WriteLine(command); // + Environment.NewLine);
             }
         }
     }

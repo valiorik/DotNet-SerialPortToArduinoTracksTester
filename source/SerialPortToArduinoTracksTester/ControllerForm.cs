@@ -110,6 +110,11 @@ namespace SerialPortToArduinoTracksTester
             ComPortListComboBox.Refresh();
         }
 
+        private void GetTempButton_Click(object sender, EventArgs e)
+        {
+            monitor.SendCommand("GetTemp");
+        }
+
 
     }
 }

@@ -35,6 +35,7 @@
             this.ComPortListRefreshButton = new System.Windows.Forms.Button();
             this.TracksStopButton = new System.Windows.Forms.Button();
             this.LogListBox = new System.Windows.Forms.ListBox();
+            this.GetTempButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.RightTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LeftTrackBar)).BeginInit();
             this.SuspendLayout();
@@ -109,11 +110,22 @@
             this.LogListBox.Size = new System.Drawing.Size(654, 498);
             this.LogListBox.TabIndex = 6;
             // 
+            // GetTempButton
+            // 
+            this.GetTempButton.Location = new System.Drawing.Point(768, 14);
+            this.GetTempButton.Name = "GetTempButton";
+            this.GetTempButton.Size = new System.Drawing.Size(75, 23);
+            this.GetTempButton.TabIndex = 7;
+            this.GetTempButton.Text = "GetTemp";
+            this.GetTempButton.UseVisualStyleBackColor = true;
+            this.GetTempButton.Click += new System.EventHandler(this.GetTempButton_Click);
+            // 
             // ControllerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(855, 552);
+            this.Controls.Add(this.GetTempButton);
             this.Controls.Add(this.LogListBox);
             this.Controls.Add(this.TracksStopButton);
             this.Controls.Add(this.ComPortListRefreshButton);
@@ -140,6 +152,7 @@
         private System.Windows.Forms.Button ComPortListRefreshButton;
         private System.Windows.Forms.Button TracksStopButton;
         private System.Windows.Forms.ListBox LogListBox;
+        private System.Windows.Forms.Button GetTempButton;
     }
 }
 
